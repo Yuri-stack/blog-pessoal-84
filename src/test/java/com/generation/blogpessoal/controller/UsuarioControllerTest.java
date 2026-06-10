@@ -43,7 +43,7 @@ class UsuarioControllerTest {
 	private static final String ADMIN = "root@root.com";
 	private static final String SENHA = "rootroot";
 
-	@BeforeAll
+	@BeforeAll	// Antes de Tudo
 	void start() {
 		usuarioRepository.deleteAll();
 		usuarioService.cadastrarUsuario(TestBuilder.criarUsuario(null, "Root", ADMIN, SENHA));
@@ -57,13 +57,15 @@ class UsuarioControllerTest {
 		Usuario usuario = TestBuilder.criarUsuario(null, "Paulo Antunes", "paulo_antunes@email.com.br", "12345678");
 		
 		// When
-		HttpEntity<Usuario> requisicao = new HttpEntity<>(usuario);
+		HttpEntity<Usuario> requisicao = new HttpEntity<>(usuario);	// criando o corpo da requisição
+		
+		// testRestTemplate : Simula o Insomnia | Simula a requisição feita pelo Usuário
 		ResponseEntity<Usuario> resposta = testRestTemplate.exchange(
 				BASE_URL + "/cadastrar", HttpMethod.POST, requisicao, Usuario.class);
 		
 		// Then
-		assertEquals(HttpStatus.CREATED, resposta.getStatusCode());
-		assertNotNull(resposta.getBody());
+		assertEquals(HttpStatus.CREATED , resposta.getStatusCode()); // 201 é igual 201? Sim
+		assertNotNull(resposta.getBody());	// O corpo da Requisição é Nulo? Não
 	}
 
 	@Test
